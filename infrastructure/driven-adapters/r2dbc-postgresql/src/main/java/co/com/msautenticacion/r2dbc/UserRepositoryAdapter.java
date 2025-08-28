@@ -7,6 +7,8 @@ import co.com.msautenticacion.r2dbc.repository.UserDataRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Repository
 public class UserRepositoryAdapter implements UserRepository {
 
@@ -18,9 +20,20 @@ public class UserRepositoryAdapter implements UserRepository {
 
     @Override
     public Mono<User> saveUser(User user) {
-        UserEntity userEntity = toUserEntity(user);
-
-        return userDataRepository.save(userEntity)
+        return Mono.fromCallable(() -> {
+                    UserEntity userEntity = new UserEntity(
+                            null,
+                            user.getName(),
+                            user.getLastName(),
+                            user.getBirthDate(),
+                            user.getPhoneNumber(),
+                            user.getEmail(),
+                            user.getDirectionAddress(),
+                            user.getSalary()
+                    );
+                    return userEntity;
+                })
+                .flatMap(userDataRepository::save)
                 .map(this::toUser);
     }
 
@@ -29,9 +42,9 @@ public class UserRepositoryAdapter implements UserRepository {
         return userDataRepository.existsByEmail(email);
     }
 
-    private UserEntity toUserEntity(User user){
+    private UserEntity userEntity(User user){
         return new UserEntity(
-                user.getId(),
+                null,
                 user.getName(),
                 user.getLastName(),
                 user.getBirthDate(),

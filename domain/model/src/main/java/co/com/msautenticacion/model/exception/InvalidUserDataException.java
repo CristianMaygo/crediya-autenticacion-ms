@@ -1,4 +1,4 @@
-package co.com.msautenticacion.exception;
+package co.com.msautenticacion.model.exception;
 
 public class InvalidUserDataException extends RuntimeException {
     public InvalidUserDataException(String message) {

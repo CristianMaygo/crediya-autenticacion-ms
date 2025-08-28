@@ -1,14 +1,15 @@
 package co.com.msautenticacion.api.exception;
 
 import co.com.msautenticacion.api.dto.ErrorResponse;
-import co.com.msautenticacion.exception.InvalidUserDataException;
+import co.com.msautenticacion.model.exception.InvalidUserDataException;
+import co.com.msautenticacion.model.exception.EmailAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.support.WebExchangeBindException;
-import co.com.msautenticacion.exception.EmailAlreadyExistsException;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 
@@ -16,42 +17,41 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleEmailAlreadyExists(
+    public Mono<ResponseEntity<ErrorResponse>> handleEmailAlreadyExists(
             EmailAlreadyExistsException ex,
-            ServerHttpRequest request) {
+            ServerWebExchange exchange) {
 
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now().toString(),
                 409,
                 "Conflicto",
                 ex.getMessage(),
-                request.getURI().getPath()
+                exchange.getRequest().getURI().getPath()
         );
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
-
+        return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).body(error));
     }
 
     @ExceptionHandler(InvalidUserDataException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidUserData(
+    public Mono<ResponseEntity<ErrorResponse>> handleInvalidUserData(
             InvalidUserDataException ex,
-            ServerHttpRequest request) {
+            ServerWebExchange exchange) {
+
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now().toString(),
                 400,
                 "Datos de Usuario Inválidos",
                 ex.getMessage(),
-                request.getURI().getPath()
+                exchange.getRequest().getURI().getPath()
         );
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error));
     }
 
-
     @ExceptionHandler(WebExchangeBindException.class)
-    public ResponseEntity<ErrorResponse> handleValidationErrors(
+    public Mono<ResponseEntity<ErrorResponse>> handleValidationErrors(
             WebExchangeBindException ex,
-            ServerHttpRequest request) {
+            ServerWebExchange exchange) {
 
         String message = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
 
@@ -60,24 +60,25 @@ public class GlobalExceptionHandler {
                 400,
                 "Error de Validación",
                 message,
-                request.getURI().getPath()
+                exchange.getRequest().getURI().getPath()
         );
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error));
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGenericException(
+    public Mono<ResponseEntity<ErrorResponse>> handleGenericException(
             Exception ex,
-            ServerHttpRequest request) {
+            ServerWebExchange exchange) {
 
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now().toString(),
                 500,
                 "Error Interno del Servidor",
                 "Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.",
-                request.getURI().getPath()
+                exchange.getRequest().getURI().getPath()
         );
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+
+        return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error));
     }
 }

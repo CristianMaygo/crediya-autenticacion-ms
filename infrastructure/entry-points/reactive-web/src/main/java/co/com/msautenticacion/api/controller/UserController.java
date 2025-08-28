@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/api/v1/usuarios")
 public class UserController {
@@ -35,7 +33,7 @@ public class UserController {
 
     private User toUser(UserRequest request) {
         User user = new User();
-        user.setId(UUID.randomUUID().toString());
+        // NO generar ID aquí - el UseCase se encarga de eso
         user.setName(request.getName());
         user.setLastName(request.getLastName());
         user.setBirthDate(request.getBirthDate());
@@ -44,7 +42,6 @@ public class UserController {
         user.setDirectionAddress(request.getDirectionAddress());
         user.setSalary(request.getSalary());
         return user;
-
     }
 
     private UserResponse toUserResponse(User user) {
@@ -60,4 +57,3 @@ public class UserController {
         );
     }
 }
-

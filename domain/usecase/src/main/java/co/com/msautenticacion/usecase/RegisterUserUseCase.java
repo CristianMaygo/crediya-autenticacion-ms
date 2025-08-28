@@ -1,11 +1,10 @@
 package co.com.msautenticacion.usecase;
 
-import co.com.msautenticacion.exception.EmailAlreadyExistsException;
-import co.com.msautenticacion.exception.InvalidUserDataException;
 import co.com.msautenticacion.model.user.User;
 import co.com.msautenticacion.model.user.gateways.UserRepository;
+import co.com.msautenticacion.model.exception.EmailAlreadyExistsException;
+import co.com.msautenticacion.model.exception.InvalidUserDataException;
 import reactor.core.publisher.Mono;
-
 import java.util.regex.Pattern;
 
 public class RegisterUserUseCase {
