@@ -18,6 +18,18 @@ adapters:
     username: test
     password: test
 
+# Configuración existente...
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  info:
+    title: "Microservicio de Autenticación API"
+    description: "API para gestión de usuarios y autenticación"
+    version: "1.0.0"
+
 management:
   endpoints:
     web:

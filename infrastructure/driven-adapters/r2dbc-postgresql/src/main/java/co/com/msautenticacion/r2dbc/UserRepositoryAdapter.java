@@ -21,7 +21,7 @@ public class UserRepositoryAdapter implements UserRepository {
     @Override
     public Mono<User> saveUser(User user) {
         return Mono.fromCallable(() -> {
-                    UserEntity userEntity = new UserEntity(
+                    return new UserEntity(
                             null,
                             user.getName(),
                             user.getLastName(),
@@ -31,7 +31,6 @@ public class UserRepositoryAdapter implements UserRepository {
                             user.getDirectionAddress(),
                             user.getSalary()
                     );
-                    return userEntity;
                 })
                 .flatMap(userDataRepository::save)
                 .map(this::toUser);

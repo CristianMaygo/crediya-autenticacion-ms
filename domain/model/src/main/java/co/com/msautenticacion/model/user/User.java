@@ -1,6 +1,5 @@
 package co.com.msautenticacion.model.user;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,7 +8,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    @Id
     private String id;
     private String name;
     private String lastName;
