@@ -1,3 +1,8 @@
 dependencies {
     implementation project(':model')
+    // Mínimo necesario para el caso de uso
+    implementation 'io.projectreactor:reactor-core'
+
+    // Necesario para usar ReactiveCrudRepository en los casos de uso
+    implementation 'org.springframework.data:spring-data-r2dbc'
 }

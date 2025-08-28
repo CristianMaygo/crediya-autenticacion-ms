@@ -1,0 +1,16 @@
+dependencies {
+    // Mínimo necesario para el dominio
+    implementation 'io.projectreactor:reactor-core'
+
+    // Dependencias de Spring Data R2DBC
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+    implementation 'org.springframework.data:spring-data-r2dbc'
+
+    // Driver R2DBC para PostgreSQL
+    implementation 'org.postgresql:r2dbc-postgresql'
+
+    compileOnly "org.projectlombok:lombok:1.18.38"
+    annotationProcessor "org.projectlombok:lombok:1.18.38"
+
+    implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:2.5.0"
+}

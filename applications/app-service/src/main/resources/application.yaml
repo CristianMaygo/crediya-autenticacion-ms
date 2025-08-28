@@ -5,12 +5,31 @@ spring:
     name: "msAutenticacion"
   devtools:
     add-properties: false
-  h2:
-    console:
-      enabled: true
-      path: "/h2"
   profiles:
     include: null
+
+# Configuración personalizada para R2DBC PostgreSQL
+adapters:
+  r2dbc:
+    host: localhost
+    port: 5432
+    database: autenticacion_db
+    schema: public
+    username: test
+    password: test
+
+# Configuración existente...
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  info:
+    title: "Microservicio de Autenticación API"
+    description: "API para gestión de usuarios y autenticación"
+    version: "1.0.0"
+
 management:
   endpoints:
     web:
@@ -22,3 +41,8 @@ management:
         enabled: true
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
+
+logging:
+  level:
+    co.com.msautenticacion: DEBUG
+    org.springframework.r2dbc: DEBUG

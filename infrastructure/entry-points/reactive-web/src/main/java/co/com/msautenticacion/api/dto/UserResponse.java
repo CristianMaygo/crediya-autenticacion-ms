@@ -1,5 +1,8 @@
-package co.com.msautenticacion.model.user;
-import lombok.*;
+package co.com.msautenticacion.api.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -7,7 +10,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserResponse {
     private String id;
     private String name;
     private String lastName;
